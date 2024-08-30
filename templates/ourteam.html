@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>LanGen Our Team</title>
+    <link rel="icon" type="image/png" href="static/assets/img/LanGen logo.png">
+    <!-- Font Awesome icons (free version) -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- OUR CSS FILE FOR OUR TEAM PAGE -->
+    <style>
+        /* OUR TEAM */ 
+        body {
+            background-color: white;
+            justify-content: center;
+        } 
+        .teamHeader {
+            background-color: #8a6e4eff;
+            font-size: 100px;
+            color: white;
+            padding: 50px;
+            margin-left: -50px;
+            margin-top: -50px;
+            font-family:serif
+        }
+        .members {
+            display: flex;
+            justify-content: space-evenly;
+            text-align: center;
+            gap: 10px; 
+        }
+        .members img {
+            width: 250px;
+            height: 250px; 
+            border-radius: 50%;
+            object-fit: cover;
+            border: solid 10px #412d01;
+            margin-top: 30px;
+        }
+        .members h3 {
+            font-size: 25px;
+        }
+        .members p {
+            font-size: 20px;
+            color: white;
+        }
+        .description {
+            background-color: #8a6e4eff;
+            border-radius: 25px;
+            font-size: 25px;
+            padding: 10px;
+            margin-left: 30px;
+            margin-right: 30px;
+            border: 6px solid white;
+        }
+        .roles{
+            color:black;
+        }
+    </style>  
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/langen">LanGen Portal</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/ourteam">Our Team</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('static/assets/img/tech-tycoons-banner.png')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <!-- Optional post heading content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Post Content -->
+    <!-- TEAM -->
+    <div id="team">
+        <div class="teamClass">
+            <center> 
+                <h2 class="teamHeader">The Tech Tycoons Team</h2> 
+            </center>  
+            <div class="members">
+                <div class="cheech"> 
+                    <img src="static/assets/img/Cheech.jpg" alt="Yingqi (Cheech) Li">
+                    <br><br>
+                    <h4>Yingqi (Cheech) Li</h4>
+                    <h3>PM | Lead MLE | DS | WD</h3>
+                    <a href="https://www.linkedin.com/in/yingqili/" target="_blank">Learn more</a>
+                    <p class="description">Hello! I am a rising junior at Fort Lee High School. When I’m not busy with responsiblities, I spend my time programming, watching TV shows, and spending time with friends and family.</p>
+                </div>
+                <div class="kevin"> 
+                    <img src="static/assets/img/kevin.png" alt="Kevin Pham">
+                    <br><br>
+                    <h4>Kevin Pham</h4>
+                    <h3>Lead DS | MLE | WD</h3>
+                    <a href="https://www.linkedin.com/in/kevin-pham-809b0b325/" target="_blank">Learn more</a>
+                    <p class="description">Hello, I am a college student studying Applied Math and am hoping to transfer to a top university. Some things I enjoy doing in my free time include programming, learning languages, and playing competitive tennis.</p>
+                </div>
+                <div class="jovie">
+                    <img src="static/assets/img/Jovie.jpg" alt="Jheovelym (Jovie) Luna-Gabriel">
+                    <br><br>
+                    <h4>Jheovelym (Jovie) Luna-Gabriel</h4>
+                    <h3>Lead WD | DS | MLE</h3>
+                    <a href="https://www.linkedin.com/in/jheovelym-luna-gabriel-02648b307/" target="_blank">Learn more</a>
+                    <p class="description">Hii! I am a rising junior from NYC. Coding has been my one of my favorite activities these past months. I joined AI Camp in the hopes of learning about NLPs and anything revolving ML and have learned a great amount for these 3 weeks. Go Tech Tycoons! :)</p>
+                </div>
+                <div class="samarth">
+                    <img src="static/assets/img/samarth.jpeg" alt="Samarth Kulkarni">
+                    <br><br>
+                    <h4>Samarth Kulkarni</h4> 
+                    <h3>Instructor</h3>
+                    <a href="https://www.linkedin.com/in/samarth-kulkarni-a97891189/" target="_blank">Learn more</a>
+                    <p class="description">Hey, I'm Samarth Kulkarni, a Master’s student in Computer Science at Santa Clara University, deeply passionate about NLP research. I also mentor students at AI Camp, guiding them through end-to-end NLP projects and helping them build a strong foundation in the field.</p>
+                </div>
+                <br><br>
+            </div>
+            <center>
+                <h2 class="roles">PM - Product Manager | MLE - Machine Learning Engineer | DS - Data Scientist | WD - Web Designer</h2>
+            </center>
+        </div>
+    </div>
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>LanGen NLP Implementation</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version) -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="jquery-2.1.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inline CSS -->
+    <style>
+        .loader__bg {
+            background-color: #654321;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 1000;
+        }
+        .loader--book {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 57px;
+            transform: translate(-50%, -50%);
+            perspective: 160px;
+            transform-style: preserve-3d;
+            background: linear-gradient(to right, #eee 50%, #fff 50%);
+            background: linear-gradient(to right, #fff, #eee, #fff);
+            border: 3px solid #333;
+            border-width: 3px 5px;
+            border-radius: 2px;
+        }
+        .loader--book::after,
+        .loader--book::before {
+            content: '';
+            background: #dbdbdb;
+            position: absolute;
+            width: 27px;
+            height: 3px;
+            top: 9px;
+            right: 4px;
+            box-shadow: 0 6px 0 #dbdbdb, 0 12px 0 #dbdbdb, 0 18px 0 #dbdbdb, 0 24px 0 #dbdbdb, 0 30px 0 #dbdbdb;
+        }
+        .loader--book::before {
+            left: 4px;
+            right: auto;
+        }
+        .loader--paper {
+            width: 35px;
+            height: 50px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            transform-origin: 0 50%;
+            background: linear-gradient(to right, #eee, #fff);
+            border-left: 1px solid #ddd;
+            animation: flip 1s infinite ease-in-out;
+        }
+        .loader--paper::after {
+            content: '';
+            background: #dbdbdb;
+            position: absolute;
+            width: 27px;
+            height: 3px;
+            top: 9px;
+            right: 4px;
+            box-shadow: 0 6px 0 #dbdbdb, 0 12px 0 #dbdbdb, 0 18px 0 #dbdbdb, 0 24px 0 #dbdbdb, 0 30px 0 #dbdbdb;
+        }
+        @keyframes flip {
+            from {}
+            40% {
+                transform: rotateY(-180deg);
+                background-color: #eee;
+            }
+            100% {
+                transform: rotateY(-180deg);
+                background-color: #eee;
+            }
+        }
+        body {
+            background-color: #ebe5dfff;
+            height: 100%;
+            width: 100%;
+        }
+        .masthead {
+            filter: sepia(25%);
+        }
+        .heading {
+            color: #ebe5dfff;
+        }
+        .subheading {
+            color: #ebe5dfff;
+        }
+        .choosingprompts {
+            display: flex;
+            justify-content: center;
+            border: 1px solid #8a6e4eff;
+            background-color: #8a6e4eff;
+            color: #ebe5dfff;
+            font-size: 50px;
+            padding: 30px;
+            margin-left: -100%;
+            margin-right: -100%;
+            margin-top: -50px;
+        }
+        .generation {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .generatetexthere {
+            color: #8a6e4eff;
+            font-size: 30px;
+        }
+        .enteringprompt {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .promptwrite {
+            margin-top: 10px;
+            width: 400px;
+            border: 1px solid #8a6e4eff;
+            color: #8a6e4eff;
+        }
+        .translations {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .transwrite {
+            margin-top: 10px;
+            width: 400px;
+            border: 1px solid #8a6e4eff;
+            color: #8a6e4eff;
+        }
+        .voice {
+            border: 1px solid #8a6e4eff;
+            background-color: #8a6e4eff;
+            color: #ebe5dfff;
+        }
+        .genbutton {
+            border: 1px solid #8a6e4eff;
+            background-color: #8a6e4eff;
+            color: #ebe5dfff;
+        }
+        .whatarethose {
+            margin-top: -285px;
+            margin-left: 600px;
+        }
+        .whatwedoin {
+            color: #8a6e4eff;
+            font-size: 30px;
+        }
+        .whatwedo {
+            color: #8a6e4eff;
+            font-size: 20px;
+        }
+        .output {
+            margin-top: 100px;
+            margin-left: -100%;
+            margin-right: -100%;
+            background-image: url("static/assets/img/default-trans.jpg");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .defaulter {
+            margin-left: -100px;
+            padding: 50px;
+        }
+        .default-lang {
+            background-color: #ebe5dfff;
+            color: #8a6e4eff;
+            font-size: 30px;
+        }
+        .default-langbox {
+            background-color: #ebe5dfff;
+            color: #8a6e4eff;
+            height: 400px;
+            width: 800px;
+            white-space: normal;
+            resize: none;
+        }
+        .translater {
+            margin-left: 100px;
+        }
+        .translated-lang {
+            background-color: #ebe5dfff;
+            color: #8a6e4eff;
+            font-size: 30px;
+        }
+        .translated-langbox {
+            background-color: #ebe5dfff;
+            color: #8a6e4eff;
+            height: 400px;
+            width: 800px;
+            white-space: normal;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">Tech Tycoons</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/langen">LanGen Portal</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/ourteam">Our Team</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('static/assets/img/animatedbook.gif')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="page-heading">
+                        <h1 class="heading">LanGen Portal</h1>
+                        <span class="subheading">This is the portal where you can play around with the NLP model.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="mb-4 justify-content-center">
+        <div class="container px-4 px-lg-5 justify-content-center">
+            <div class="row gx-4 gx-lg-5 justify-content-space-around">
+                <div class="col-md-20 col-lg-20 col-xl-20">
+                    <!-- Choose a prompt -->
+                    <center>
+                        <h1 class="choosingprompts">AI Generated Story</h1>
+                    </center>
+                    <div class="gendoing">
+                        <div class="generation">
+                            <h1 class="generatetexthere">Generate Text Here:</h1>
+                            <form action="/submit" method="POST">
+                                <label class="enteringprompt" for="prompt">Enter your prompt:</label>
+                                <input class="promptwrite" type="text" id="prompt" name="prompt" required>
+                                <br><br>
+                                <label class="translations" for="language">Translate to:</label>
+                                <select class="transwrite" id="language" name="language">
+                                    <option value="es">Spanish</option>
+                                    <option value="zh-CN">Chinese (PRC)</option>
+                                    <option value="hi">Hindi</option>
+                                    <option value="ar">Arabic</option>
+                                    <option value="pt-BR">Portuguese (Brazil)</option>
+                                    <option value="bn">Bengali</option>
+                                    <option value="ru">Russian</option>
+                                    <option value="ja">Japanese</option>
+                                    <option value="de">German</option>
+                                    <option value="fr">French</option>
+                                    <option value="ko">Korean</option>
+                                    <option value="vi">Vietnamese</option>
+                                    <option value="tr">Turkish</option>
+                                    <option value="pl">Polish</option>
+                                    <option value="it">Italian</option>
+                                    <option value="ta">Tamil</option>
+                                    <option value="te">Telugu</option>
+                                    <option value="ms">Malay</option>
+                                    <option value="ml">Malayalam</option>
+                                    <option value="uk">Ukrainian</option>
+                                    <option value="sv">Swedish</option>
+                                    <option value="sw">Swahili</option>
+                                    <option value="he">Hebrew</option>
+                                    <option value="cs">Czech</option>
+                                    <option value="ro">Romanian</option>
+                                    <option value="hu">Hungarian</option>
+                                    <option value="sr">Serbian</option>
+                                    <option value="lt">Lithuanian</option>
+                                    <option value="lv">Latvian</option>
+                                    <option value="sk">Slovak</option>
+                                    <option value="sl">Slovenian</option>
+                                    <option value="da">Danish</option>
+                                    <option value="fi">Finnish</option>
+                                    <option value="eu">Basque</option>
+                                    <option value="ca">Catalan</option>
+                                    <option value="chr">Cherokee</option>
+                                    <option value="hr">Croatian</option>
+                                    <option value="bg">Bulgarian</option>
+                                    <option value="el">Greek</option>
+                                    <option value="kn">Kannada</option>
+                                    <option value="gu">Gujarati</option>
+                                    <option value="is">Icelandic</option>
+                                    <option value="id">Indonesian</option>
+                                    <option value="cy">Welsh</option>
+                                    <option value="am">Amharic</option>
+                                    <option value="ur">Urdu</option>
+                                    <option value="zh-TW">Chinese (Taiwan)</option>                                    
+                                </select>
+                                <br><br>
+                                <!-- word Count -->
+                                <label>Maximum Word Count:</label>
+                                <select class="wordCount" id="wordCount" name="wordCount">
+                                    <option value = "63">25</option>
+                                    <option value = "125">50</option>\
+                                    <option value = "188">75</option>
+                                    <option value = "250">100</option>
+                                </select>
+                                <br><br>
+                                <!-- Audio -->
+                                <button class="voice" id="startBtn">Start Listening</button>
+                                <button class="voice" id="stopBtn" disabled>Stop Listening</button>
+                                <script>
+                                    // Check for browser support
+                                    if (!('webkitSpeechRecognition' in window)) {
+                                        alert("Sorry, your browser doesn't support speech recognition.");
+                                    } else {
+                                        // Initialize SpeechRecognition
+                                        const recognition = new webkitSpeechRecognition(); // Use SpeechRecognition in standard browsers
+                                        recognition.continuous = true; // Keep recognition active
+                                        recognition.interimResults = true; // Show intermediate results
+                                        // Handle speech recognition result
+                                        recognition.onresult = (event) => {
+                                            let transcript = '';
+                                            for (let i = 0; i < event.results.length; i++) {
+                                                transcript += event.results[i][0].transcript;
+                                            }
+                                            document.getElementById('prompt').innerText = transcript;
+                                            document.getElementById('prompt').value = transcript;
+                                        };
+                                        // Handle errors
+                                        recognition.onerror = (event) => {
+                                            console.error('Speech recognition error:', event.error);
+                                        };
+                                        // Handle speech recognition end
+                                        recognition.onend = () => {
+                                            console.log('Speech recognition ended');
+                                        };
+                                        // Start listening
+                                        document.getElementById('startBtn').addEventListener('click', () => {
+                                            recognition.start();
+                                            document.getElementById('startBtn').disabled = true;
+                                            document.getElementById('stopBtn').disabled = false;
+                                        });
+                                        // Stop listening
+                                        document.getElementById('stopBtn').addEventListener('click', () => {
+                                            recognition.stop();
+                                            document.getElementById('startBtn').disabled = false;
+                                            document.getElementById('stopBtn').disabled = true;
+                                        });
+                                    }
+                                </script>
+                                <!-- Audio -->
+                            <input class="genbutton" type="submit" value="Generate">
+                            </form>
+                        </div>
+                        <!-- What does this do? RAHHH -->
+                        <div class="whatarethose">
+                            <h1 class="whatwedoin">How to use?</h1>
+                            <p class="whatwedo">1. Enter/Speak a simple prompt</p>
+                            <p class="whatwedo">2. Select your language</p>
+                            <p class="whatwedo">3. Select maximum word count</p>
+                            <p class="whatwedo">4. Generate</p>
+                        </div>
+                    </div>
+                    <!-- Default and Translated Language -->
+                    <center>
+                        <div class="output">
+                            <div class="defaulter">
+                                <h2 class="default-lang">Story</h2>
+                                <textarea class="default-langbox" id="default-langbox" name="default-langbox" readonly>{{ original_text }}</textarea>
+                                <br><br>
+                                <audio id="audio_play" controls>
+                                    <source src="{{ url_for('static', filename='assets/audio/audio.mp3') }}?{{ time }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="translater">
+                                <h2 class="translated-lang">Translated Story</h2>
+                                <textarea class="translated-langbox" id="translated-langbox" name="translated-langbox" readonly>{{ translated_text }}</textarea>
+                                <br><br>
+                                <audio id="translated_audio_play" controls>
+                                    <source src="{{ url_for('static', filename='assets/audio/translated_audio.mp3') }}?{{ time }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="loader__bg">
+        <div class="loader--book">
+            <div class="loader--paper"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('audio_play').addEventListener('play', function() {
+            this.currentTime = 0;
+        });
+        document.getElementById('translated_audio_play').addEventListener('play', function() {
+            this.currentTime = 0;
+        });
+    </script>
+    <script>
+        $(window).on("load", function(){
+            $(".loader__bg").fadeOut(2000);
+        });
+    </script>
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>

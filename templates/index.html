@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>LanGen</title>
+        <link rel="icon" type="image/png" href="static/assets/img/LanGen logo.png">
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Combined CSS -->
+        <style>
+            body {
+                background-color: #ebe5dfff;
+                justify-content: center;
+            }          
+            .masthead {
+                filter: sepia(25%);
+            }
+            .heading {
+                color: #ebe5dfff;
+            }
+            .subheading {
+                color: #ebe5dfff;
+            }
+            .pers {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #8a6e4e; /* Brown background */
+                z-index: 1000;
+                transition: opacity 9s ease;
+            }
+            .loader {
+                font-size: 150px;
+                text-align: center;
+                color: #FFFFFF; /* White text color */
+                position: relative;
+            }           
+            /***** LanGen Home Page Content *****/     
+            /* What is LanGen? */
+            .langen-about {
+                display: flex;
+                flex-wrap: no-wrap;
+                justify-content: center;
+                background-color: #8a6e4e; 
+                padding-top: 80px;
+                padding-bottom: 80px;
+                margin-top: -80px;   
+            }
+            .langenframe {
+                margin-left: 100px;
+                height: 250px;
+                width: 250px;
+            }
+            .langen-what {
+                margin-left: 30px; 
+            }
+            .whatislangen {
+                font-family: serif;
+                color: #e9e5dfff;
+                font-size: 60px;
+            }
+            .langen-description {
+                color: #e9e5dfff;
+                font-family: monospace;
+            }
+            /* Topics of Focus */
+            .top {
+                font-family: serif;
+                color: #8a6e4e;
+                display: flex;
+                justify-content: center;
+                font-size: 60px;
+                margin-top: 50px;
+            }
+            .vocab {
+                font-family: serif;
+                color: #8a6e4e;
+                border: 1px solid none;
+                margin-left: -1000px; 
+            }
+            .vocab-img {
+                border: 1px solid #8a6e4e;
+                height: 300px;
+                width: 200px;
+                display: flex;
+                justify-content: center;
+                margin-left: 50px;
+                object-fit: cover;
+            }
+            .vocab-text {
+                color: #8a6e4e;
+                margin-left: -990px;
+                font-family: monospace;
+            }
+            .pronouns {
+                border: 1px solid none;
+                color: #8a6e4e;
+                margin-left: -310px;
+                margin-top: -150px;
+            }
+            .pronoun-img {
+                border: 1px solid #8a6e4e;
+                height: 300px;
+                width: 200px;
+                display: flex;
+                justify-content: center;
+                margin-left: 150px;
+                object-fit: cover;
+            }
+            .pronoun-text {
+                color: #8a6e4e;
+                margin-left: -300px;
+                font-family: monospace;
+            }
+            .improve {
+                color: #8a6e4e;
+                margin-left: 400px;
+                margin-top: -150px;
+            }
+            .improve-img {
+                border: 1px solid #8a6e4e;
+                height: 300px;
+                width: 200px;
+                display: flex;
+                justify-content: center;
+                margin-left: 150px;
+                object-fit: cover;
+            }
+            .improve-text {
+                color: #8a6e4e;
+                margin-left: 400px;
+                font-family: monospace;
+            }
+            .fun {
+                color: #8a6e4e;
+                margin-left: 1100px;
+                margin-top: -180px;
+            }
+            .fun-img {
+                border: 1px solid #8a6e4e;
+                height: 300px;
+                width: 200px;
+                display: flex;
+                justify-content: center;
+                margin-left: 150px;
+                object-fit: cover;
+            }
+            .fun-text {
+                color: #8a6e4e;
+                margin-left: 1100px;
+                font-family: monospace;
+            }
+            .top-image-alignment {
+                display: flex;
+                justify-content: center;
+            }
+            /* Our Mission */
+            .mission-class {
+                background-image: url("static/assets/img/default-trans.jpg");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                object-fit: cover;
+                padding: 50px; 
+                padding-bottom: 100px;
+                margin-top: 100px;
+            }
+            .our-mission-text {
+                width: 850px;
+                height: 180px;
+                display: flex;
+                margin: 25px auto 5px auto;
+                border: 1px solid beige;
+                padding-left: 10px;
+                padding-right: 10px;
+                background-color: #ebe5dfff;
+                color: #8a6e4e;
+                font-family: monospace;
+                font-size: 18px;
+            }
+            .our-mission-heading {
+                font-family: serif;
+                font-size: 60px;
+                color: #ebe5dfff;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Loading Screen -->
+        <div class="pers">
+            <div class="loader" id="loader-text">
+                <!-- The text will be injected here by JavaScript -->
+            </div>
+        </div>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                
+                <a class="navbar-brand" href="index.html">Tech Tycoons</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/langen">LanGen Portal</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/ourteam">Our Team</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('static/assets/img/flippingbook.gif')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1 class = "heading">LanGen</h1>
+                            <span class="subheading">An educational platform</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- THE MAIN CONTENT -->
+            <!-- What is LanGen -->
+        <center>
+            <div class="langen-about">
+                <div class="langen-photo">
+                    <img class = "langenframe" src = "static/assets/img/LanGen logo.png">
+                </div>
+                <div class = "langen-what">
+                    <h1 class = "whatislangen">What is LanGen?</h1>
+                    <pre class = "langen-description">LanGen is an educational platform geared to children. 
+With our product, you can write a prompt to 
+generate a story & have the ability to 
+listen to the story in your native 
+language and a second, translated language!</pre>
+                </div>
+            </div>
+        </center>
+        <!-- Topics of Focus RAHHHHHHHH-->
+        <center>
+            <h1 class="top">Topics of Focus</h1>
+            <br><br>
+        </center>
+        <!-- Image Alignment -->
+        <div class="top-image-alignment"> 
+            <img class="vocab-img" src="static/assets/img/vocab.jpg" alt="brown book with words on it">
+            <img class="pronoun-img" src="static/assets/img/pronoun.jpg" alt="brown sheets of paper">
+            <img class="improve-img" src="static/assets/img/improve.jpg" alt="glasses">
+            <img class="fun-img" src="static/assets/img/fun.jpg" alt="pieces of paper cut into hearts">
+        </div>
+        <!-- Topics of Focus Text -->
+        <div class="vocab">
+            <center>
+                <h2 class="top-one">01</h2>
+                <h4 class="top-one-focus">Vocab and Grammar</h4>
+            </center>
+        </div>
+        <center>
+            <pre class="vocab-text">The ability to understand vocabulary 
+used within our story</pre>
+        </center>  
+        <div class="pronouns">
+            <center>
+                <h2 class="top-two">02</h2>
+                <h4 class="top-two-focus">Pronunciation</h4>
+            </center>
+        </div>
+        <center>
+            <pre class="pronoun-text">The ability for users to 
+improve their pronunciation</pre>
+        </center>
+        <div class="improve">
+            <center>
+                <h2 class="top-three">03</h2>
+                <h4 class="top-three-focus">Improved Literacy</h4>
+            </center>
+        </div>
+        <center>
+            <pre class="improve-text">The ability for users to 
+improve their reading level by 
+reading complex stories</pre>
+        </center>
+        <div class="fun">
+            <center>
+                <h2 class="top-four">04</h2>
+                <h4 class="top-four-focus">Fun Stories</h4>
+            </center>
+        </div>
+        <center>
+            <pre class="fun-text">The ability to choose what kind 
+of fun stories you can 
+read based on text input</pre>
+        </center>
+        <!-- Our Mission -->
+                <div class = "mission-class"> 
+                    <center>
+                    <h1 class = "our-mission-heading">Our Mission</h1>
+                    </center>
+
+                    <div class = "our-mission-text">
+                    <center>
+                       <p class = "mission-body"> Our product aims to solve the issue of vanilla education by translating stories for children to both read & learn: vocabulary, grammar, & pronunciation of a chosen language. We hope to provide a fun, interactive learning experience for children of all ages.</p>
+                    </center>
+                  </div>
+                </div>
+        <!-- JavaScript for Loading Screen -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Array of "Hello" translations
+                const texts = [
+                    'Hello',        // English
+                    'Hola',         // Spanish
+                    'Bonjour',      // French
+                    'Hallo',        // German
+                    'Ciao',         // Italian
+                    'Olá',          // Portuguese
+                    'Привет',       // Russian
+                    'こんにちは',    // Japanese
+                    '你好',          // Chinese (Simplified)
+                    '안녕하세요',    // Korean
+                    'مرحبا',        // Arabic
+                    'שלום',         // Hebrew
+                    'नमस्ते',       // Hindi
+                    'হ্যালো',       // Bengali
+                    'Merhaba',      // Turkish
+                    'Habari',       // Swahili
+                    'Xin chào',     // Vietnamese
+                    'สวัสดี',      // Thai
+                    'Γειά',         // Greek
+                    'Hej',          // Danish
+                    'Hei',          // Norwegian
+                    'Cześć',        // Polish
+                    'Ahoj',         // Czech
+                    'Helló',        // Hungarian
+                    'Bună',         // Romanian
+                    'Здраво',       // Serbian
+                    'Bok',          // Croatian
+                    'Živjo',        // Slovenian
+                    'Tere',         // Estonian
+                    'Sveiki',       // Latvian
+                    'Labas',        // Lithuanian
+                    'Kaixo',        // Basque
+                    'Helo',         // Welsh
+                    'Dia dhuit',    // Irish
+                    'Manao ahoana', // Malagasy
+                    'Kia ora',      // Maori
+                    'Talofa',       // Samoan
+                    'Saluton',      // Esperanto
+                    'Moni',         // Chichewa
+                    'Bongu',        // Maltese
+                    'Mingalaba',    // Burmese
+                    'Sabaidee',     // Lao
+                    'Rimaykullayki',// Quechua
+                    'Mbote',        // Lingala
+                    'Salam',        // Pashto
+                    'Mhoro',        // Shona
+                    'Agoo',         // Akan
+                    'Përshëndetje', // Albanian
+                    'Selam',        // Amharic
+                    'Һаумы',        // Bashkir
+                    'Прывітанне',   // Belarusian
+                    'Hyālō',        // Bengali (Bangladesh)
+                    'Halo',         // Bislama
+                    'Demat',        // Breton
+                    'Goeie dag',    // Dutch (Afrikaans)
+                    'Bonghjornu',   // Corsican
+                    'Aloha',        // Hawaiian
+                    'Selam',        // Somali
+                    ' '
+                ];
+                let index = 0;
+                function displayNextText() {
+                    if (index < texts.length) {
+                        document.getElementById('loader-text').innerText = texts[index];
+                        index++;
+                        setTimeout(displayNextText, 125);
+                    }
+                }
+                displayNextText(); // Start the loop
+            });
+            window.addEventListener('load', function(){
+                setTimeout(function() {
+                    document.querySelector('.pers').style.opacity = "0";
+                    setTimeout(function(){
+                        document.querySelector('.pers').style.display = "none";
+                    }, 8750); // originally 8700
+                }, 8750); // originally 8700
+            });
+        </script>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
